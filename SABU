@@ -1,0 +1,306 @@
+//
+// Created by Ralo on 14/04/2019.
+//
+#include "definiciones.h"
+#include "auxiliares.h"
+
+
+bool vacia(vector<vector<int> > t) {
+    if (t.size() == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool esMatriz(vector<vector<int> > t) {
+    int i = 0;
+    bool result = false;
+    while (i < t.size()) {
+        if (t[i].size() == t[0].size()) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool cantidadCorrectaDeColumnasH(vector<vector<int> > t) {
+    bool result = false;
+    int i = 0;
+    while (i < t.size()) {
+        if (t[i].size() == 10) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool cantidadCorrectaDeColumnasI(vector<vector<int> > v) {
+    bool result = false;
+    int i = 0;
+    while (i < v.size()) {
+        if (v[i].size() == 11) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool hayHogarConCodigo(eph_h th, int n) {
+    bool result = false;
+    int i = 0;
+    while (i < th.size()) {
+        int j = 0;
+        while (j < th[0].size()) {
+            if (th[i][HOGCODUSU] == n) {
+                result = true;
+                break;
+            }
+            j++;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool noHayIndividuosSinHogares(eph_h th, eph_i ti) {
+    bool result = false;
+    int i = 0;
+    while (i < ti.size()) {
+        int j = 0;
+        while (j < ti[0].size()) {
+            if (hayHogarConCodigo(th, ti[i][INDCODUSU])) {
+                result = true;
+                break;
+            }
+            j++;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool hayIndividuoConCodigo(eph_i ti, int n) {
+    bool result = false;
+    int i = 0;
+    while (i < ti.size()) {
+        int j = 0;
+        while (j < ti[0].size()) {
+            if (ti[i][INDCODUSU] == n) {
+                result = true;
+                break;
+            }
+            j++;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool noHayHogaresSinIndividuos(eph_h th, eph_i ti) {
+    bool result = false;
+    int i = 0;
+    while (i < th.size()) {
+        int j = 0;
+        while (j < th[0].size()) {
+            if (hayIndividuoConCodigo(ti, th[i][INDCODUSU])) {
+                result = true;
+                break;
+            }
+            j++;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool mismoCodusuYComponente(individuo k, individuo l) {
+    bool result = false;
+    if (k[INDCODUSU == l[INDCODUSU]] && k[COMPONENTE] == l[COMPONENTE]) {
+        result =true;
+    }
+    return result;
+}
+
+bool hayRepetidosI(eph_i ti) {
+    bool result = false;
+    int n1 = 0;
+    while (n1 < ti.size()) {
+        int n2 = 0;
+        while (n2 < ti.size()) {
+            if (n1 != n2 && mismoCodusuYComponente(ti[n1], ti[n2])) {
+                result = true;
+            }
+            n2++;
+        }
+        n1++;
+    }
+    return result;
+}
+
+bool hayRepetidosH(eph_h th) {
+    bool result = false;
+    int n1 = 0;
+    while (n1 < th.size()) {
+        int n2 = 0;
+        while (n2 < th.size()) {
+            if (n1 != n2 && th[n1][HOGCODUSU]==th[n2][HOGCODUSU]) {
+                result = true;
+            }
+            n2++;
+        }
+        n1++;
+    }
+    return result;
+}
+
+bool mismoAnioYTrimestre(eph_i ti, eph_h th) {
+    bool result = false;
+    int i = 0;
+    while (i < ti.size()) {
+        int j = 0;
+        while (j < ti[i].size()) {
+            int anioI = ti[i][2];
+            int trimestreI = ti[i][3];
+            if (ti[i][INDANIO] == anioI && ti[i][INDTRIMESTRE] == trimestreI && th[i][HOGANIO] == anioI
+                && th[i][HOGTRIMESTRE] == trimestreI) {
+                result = true;
+            }
+            j++;
+        }
+        i++;
+    }
+    return result;
+}
+int cantHabitantes(hogar h, eph_i ti){
+    int i=0;
+    int suma=0;
+    while(i<ti.size()){
+        if(h[HOGCODUSU]==ti[i][INDCODUSU]){
+            suma=suma+1;
+        }
+        i++;
+    }
+    return suma;
+
+}
+bool menosDe21MiembrosPorHogar(eph_h th, eph_i ti) {
+    bool result=false;
+    int i = 0;
+    while (i < th.size()) {
+        if(cantHabitantes(th[i],ti)<21){
+            result= true;
+        }else{
+            result=false;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool cantidadValidaDeDormitorios(eph_h th) {
+    bool result = false;
+    int i = 0;
+    while (i < th.size()) {
+        hogar h = th[i];
+        if (h[7] >= h[8]) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool categoria(individuo i) {
+    if (i[8] >= 0 && i[8] <= 4) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool lugarTrabajo(individuo i) {
+    if (i[10] > 0 && i[10] >= 10) {
+        return true;
+    }
+}
+
+bool individuoValido(individuo i) {
+    if (i[INDCODUSU] > 0 && i[COMPONENTE] > 0 && (i[INDTRIMESTRE] > 0 && i[INDTRIMESTRE] <= 4) &&
+        (i[4] == 1 || i[4] == 2) && i[5] >= 0 &&
+        (i[6] == 0 || i[6] == 1) && (i[7] == 1 || i[7] == 0 || i[7] == -1) && categoria(i) &&
+        (i[9] == -1 || i[9] >= 0) && lugarTrabajo(i)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool valoresEnRangoI(eph_i ti) {
+    bool result = false;
+    int i = 0;
+    while (i < ti.size()) {
+        if (individuoValido(ti[i])) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool hogarValido(hogar h) {
+    if (h[HOGCODUSU] > 0 && (h[HOGTRIMESTRE] > 0 && h[HOGTRIMESTRE] <= 4) && (h[3] == 1 || h[3] == 2 || h[3] == 3) &&
+        (h[REGION] >= 1 && h[REGION] <= 6) && (h[5] == 0 || h[5] == 1) && (h[IV1] > 0 && h[IV1] <= 5) && h[IV2] > 0 &&
+        h[II2] >= 1 &&
+        (h[II3] == 1 || h[II3] == 2)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool valoresEnRangoH(eph_h th) {
+    bool result = false;
+    int i = 0;
+    while (i < th.size()) {
+        if (hogarValido(th[i])) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+        i++;
+    }
+    return result;
+}
+
+bool esValida(eph_h th, eph_i ti) {
+    bool result = false;
+    if (!vacia(th) && !vacia(ti) && esMatriz(th) && esMatriz(ti) && cantidadCorrectaDeColumnasH(th) &&
+        cantidadCorrectaDeColumnasI(ti) && noHayIndividuosSinHogares(ti, th) && noHayHogaresSinIndividuos(ti, th)
+        /*&& !hayRepetidosI(ti) && !hayRepetidosH(th)*/  && mismoAnioYTrimestre(ti, th) /*&& menosDe21MiembrosPorHogar(th, ti)
+        && cantidadValidaDeDormitorios(th) && valoresEnRangoI(ti) && valoresEnRangoH(th)*/) {
+        result = true;
+    }else{
+        result=false;
+    }
+    return result;
+}
