@@ -1,4 +1,4 @@
-// Casi ok!
+// Casi ok! no pasa los test
 float indiceGini(eph_h th, eph_i ti) {
     float res = 0.0;
      if (tablaHogaresOrdenadaPorIngresosPerCapita(th, ti)) {
