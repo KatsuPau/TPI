@@ -2,16 +2,22 @@
 #include "ejercicios.h"
 #include "auxiliares.h"
 
+// Ok.
 bool esEncuestaValida(eph_h th, eph_i ti) {
-    return false;
+    if (esValida(th, ti)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-// Ok!
+
+// Ok.
 vector<int> histHabitacional(eph_h th, eph_i ti, int region) {
     vector<int> res = {};
     if (region <= 6 && region > 0) {
         int maxHab = maxCantHab(th, region);
-        int hab = 1;
+        int hab = 0;
         while (hab <= maxHab) {
             res.push_back(cantHogaresCasaConNHabitaciones(th, region, hab));
             hab++;
@@ -20,59 +26,55 @@ vector<int> histHabitacional(eph_h th, eph_i ti, int region) {
     return res;
 }
 
-
+// Ok.
 vector<float> laCasaEstaQuedandoChica(eph_h th, eph_i ti) {
     vector<float> res(CANTIDAD_DE_REGIONES);
+    int i = 0;
+    while (i < 6) {
+        res[i] = proporcionDeCasasConHC(th, ti, i + 1);
+        i++;
+    }
     return res;
 }
 
+// Ok.
 bool creceElTeleworkingEnCiudadesGrandes(eph_h t1h, eph_i t1i, eph_h t2h, eph_i t2i) {
-    return false;
-}
+    bool res = false;
+    if ((proporcionTeleworking(t2h, t2i)) > (proporcionTeleworking(t1h, t1i))) {
+        res = true;
 
+    }
+    return res;
+}
 
 void ordenarRegionYCodusu(eph_h &th, eph_i &ti) {
     return;
 }
 
-// Idea: - Crear funcion que ordene por ingreso de menor a mayor a th.
-//       - Crear funcion que calcule la cantidad maxima de veces que aparece la diferencia de ingresos.
-//
+
 vector<hogar> muestraHomogenea(eph_h th, eph_i ti) {
-    vector<hogar> res = {};
-    int difMax = cantMaxDif(th, ti);
-
-
+    eph_h res = {};
+  //  int i = 0;
+    /*
+    while (i < res.size()) {
+        double diferencia = ingresos(res[i], ti) - ingresos(res[i + 1], ti);
+        int j = i + 1;
+        while (j < res.size()) {
+            if ((ingresos(th[j], ti) - ingresos(th[j] + 1, ti)) == diferencia) {
+                j++;
+            } else {
+            //    quitarJ(res, j);
+                j++;
+            }
+        }
+        i++;
+    }
+       */
     return res;
 }
 
-int cant(int dif, eph_h th, eph_i ti) {
-    int h = 0;
-    int c = 0;
-    int s = 0;
-    while(s<th.size()){
-    while (h < th.size() && h!=s){
-        if (ingresos(th[h], ti) - ingresos(th[s], ti) == dif)){
-            c++;
-        } else{}
-        h++;
-    }
-    s++
-    }
-    return c;
-}
 
-int maxCant(eph_h th,eph_i ti){
-    int h = 0;
-
-
-}
-
-
-
-
-
-//Ok!
+// Ok.
 void corregirRegion(eph_h &th, eph_i ti) {
     int filas = 0;
     eph_h th0 = th;
@@ -87,11 +89,18 @@ void corregirRegion(eph_h &th, eph_i ti) {
     return;
 }
 
-// Casi ok!
-float indiceGini(eph_h th, eph_i ti) {
-    float res = 0.0;
+
+// Ok.
+double indiceGini(eph_h th, eph_i ti) {
+    double res = 0.0;
     if (tablaHogaresOrdenadaPorIngresosPerCapita(th, ti)) {
-        res = areaObservada(th, ti) / areaIgualdadTotal;
+        res = areaObservada(th, ti) / 0.5;
     } else {}
     return res;
 }
+
+
+
+
+
+
