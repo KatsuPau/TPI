@@ -63,3 +63,34 @@ float proporcionTeleworking(vector<vector<int> > k1,vector<vector<int> > k2){
     }
     return p;
 }
+// EJERCICIO 3
+int cantHogValidos (eph_h th, int region){
+    int i=0;
+    int suma=0;
+    while(i<th.size()){
+        if(th[i][IV1]==1 && th[i][REGION]==region && th[i][MAS_500]==0){
+            suma=suma+1;
+        }
+        i++;
+    }
+    return suma;
+}
+
+float cantHogConHacimientoCritico (eph_h th, eph_i ti, int region){
+    int i = 0;
+    float suma = 0.0;
+    while (i < th.size()) {
+        if ( th[i][IV1]==1 && th[i][REGION]==region && th[i][MAS_500]==0 && cantHabitantes(th[i],ti)>(3*th[i][II2])){
+            suma=suma+1;
+        }
+        i++;
+    }
+    return suma;
+}
+float proporcionDeCasasConHC(eph_h th,eph_i ti, int region){
+    float p=0.0;
+    if(cantHogValidos(th,region)>0) {
+        p = cantHogConHacimientoCritico(th, ti, region)/(cantHogValidos(th, region));
+    }
+    return p;
+}
