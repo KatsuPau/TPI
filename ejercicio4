@@ -1,0 +1,65 @@
+//EJERCICIO 4
+vector <vector<int> >filtrarHogares (vector<vector<int> > v){
+    int i=0;
+    vector<vector<int> > res;
+    while(i<v.size()){
+        if((v[i][IV1]==1 || v[i][IV1]==2) && v[i][II3]==1 && v[i][MAS_500]==1){
+            res.push_back(v[i]);
+        }
+        i++;
+    }
+    return res;
+}
+vector<vector<int> > filtrarindividuos(vector<vector<int> > v){
+    int i=0;
+    vector<vector<int> > res;
+    while(i<v.size()){
+        if( v[i][ESTADO]==1 && v[i][PP04G]==6 ){
+            res.push_back(v[i]);
+        }
+        i++;
+    }
+    return res;
+}
+
+int cantIndividuosTrabajan(vector<vector<int> > l,vector<vector<int> > m){
+    vector<vector<int> > k =filtrarHogares(l);
+    int i=0;
+    int suma=0;
+    while(i<m.size()) {
+        int j = 0;
+        while (j < k.size()) {
+            if (m[i][ESTADO]==1 && (k[j][HOGCODUSU] == m[i][INDCODUSU])){
+                suma=suma+1;
+            }
+            j++;
+        }
+        i++;
+    }
+    return suma;
+}
+float cantidadIndividuosQueTrabajanEnSuVivienda(vector<vector<int> > m,vector<vector<int> > n){
+    vector<vector<int> > k =filtrarHogares(m);
+    vector<vector<int> > l=filtrarindividuos(n);
+    int i=0;
+    float suma =0.0;
+    while(i<k.size()) {
+        int j = 0;
+        while (j < l.size()) {
+            if (k[i][HOGCODUSU] == l[j][INDCODUSU]) {
+                suma = suma + 1;
+            }
+            j++;
+        }
+        i++;
+    }
+    return suma;
+}
+
+float proporcionTeleworking(vector<vector<int> > k1,vector<vector<int> > k2){
+    float p=0.0;
+    if(cantIndividuosTrabajan(k1,k2)>0){
+        p= cantidadIndividuosQueTrabajanEnSuVivienda(k1 ,k2)/cantIndividuosTrabajan(k1,k2);
+    }
+    return p;
+}
