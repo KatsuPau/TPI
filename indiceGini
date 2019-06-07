@@ -1,4 +1,4 @@
-// Casi ok! no pasa los test
+// Casi ok! faltan 2 test
 float indiceGini(eph_h th, eph_i ti) {
     float res = 0.0;
      if (tablaHogaresOrdenadaPorIngresosPerCapita(th, ti)) {
@@ -26,28 +26,23 @@ bool tablaHogaresOrdenadaPorIngresosPerCapita(eph_h th,eph_i ti){
 
 
 
-float ingresosPerCapita(hogar &h,eph_i ti){
-    float res = (ingresos(h,ti) / cantHabitantes(h,ti));
-    return res;
-}
-
-int ingresos(hogar h,eph_i ti){
+float ingresos(hogar h,eph_i ti){
     int i = 0;
-    int ingreso = 0;
+    float ingreso_ = 0.0;
     while(i<ti.size()){
         if((ti[i][p47T]>-1) && (h[HOGCODUSU] == ti[i][INDCODUSU])){
-            ingreso = ingreso + ti[i][p47T];
+            ingreso_ = ingreso_ + ti[i][p47T];
         } else {
             // skip
         }
         i++;
     }
-    return ingreso;
+    return ingreso_;
 }
 
-int cantHabitantes(hogar h,eph_i ti){
+float cantHabitantes(hogar h,eph_i ti){
     int i = 0;
-    int cant = 0;
+    float cant = 0.0;
     while(i<ti.size()){
         if(ti[i][INDCODUSU] == h[HOGCODUSU]){
             cant = cant + 1;
@@ -65,26 +60,32 @@ float areaObservada(eph_h th, eph_i ti){
 }
 
 float integralDeIngresosObservados(eph_h th,eph_i ti){
-    float res = 0;
+    float res = 0.0;
     int i = 0;
     int n = th.size();
-    float m = (1/n);
+    float m = (1.0/n);
     while(i<n){
-        res = (ingresosHasta(i-1,th,ti)/ingresosHasta(n,th,ti))+((ingresosPerCapita(th[i],ti)/ingresosHasta(n,th,ti))*(1/2));
+        res = (ingresosHasta(i,th,ti)/ingresosHasta(n,th,ti))+(ingresosPerCapita(th[i],ti)/(ingresosHasta(n,th,ti)*(2)));
         i=i+1;
     }
     return m*res;
 }
 
-float ingresosHasta(int n,eph_h &th, eph_i ti){
+float ingresosHasta(int n,eph_h th, eph_i ti){
     int i = 0;
-    float ing = 0;
+    float ing = 0.0;
     while(i<n){
            ing = ingresosPerCapita(th[i],ti);
            i++;
     }
     return ing;
 }
+
+float ingresosPerCapita(hogar h, eph_i ti) {
+    float s = ingresos(h,ti) / cantHabitantes(h,ti);
+    return s;
+}
+
 
 
 
