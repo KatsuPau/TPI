@@ -1,0 +1,392 @@
+//EJERCICIO 1
+bool vacia(vector<vector<int> > t) {
+    if (t.size() == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool esMatriz(vector<vector<int> > t) {
+    bool result = false;
+    for(int i=0;i < t.size();i++) {
+        if (t[i].size() == t[0].size()) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
+bool cantidadCorrectaDeColumnasH(vector<vector<int> > t) {
+    bool result = false;
+    for(int i=0;i < t.size();i++) {
+        if (t[i].size() == 10) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
+bool cantidadCorrectaDeColumnasI(vector<vector<int> > v) {
+    bool result = false;
+    for(int i=0;i < v.size();i++) {
+        if (v[i].size() == 11) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
+bool hayHogarConCodigo(eph_h th, int n) {
+    bool result = false;
+    for(int i=0;i < th.size();i++) {
+        for(int j=0;j < th[0].size();j++) {
+            if (th[i][HOGCODUSU] == n) {
+                result = true;
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+bool noHayIndividuosSinHogares(eph_h th, eph_i ti) {
+    bool result = false;
+    for(int i=0;i < ti.size();i++) {
+        for(int j=0;j < ti[0].size();j++) {
+            if (hayHogarConCodigo(th, ti[i][INDCODUSU])) {
+                result = true;
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+bool hayIndividuoConCodigo(eph_i ti, int n) {
+    bool result = false;
+    for(int i=0;i < ti.size();i++) {
+        for(int j=0;j < ti[0].size();j++) {
+            if (ti[i][INDCODUSU] == n) {
+                result = true;
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+bool noHayHogaresSinIndividuos(eph_h th, eph_i ti) {
+    bool result = false;
+    for(int i=0; i< th.size();i++) {
+        for(int j=0; j<th[0].size();j++) {
+            if (hayIndividuoConCodigo(ti, th[i][INDCODUSU])) {
+                result = true;
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+bool mismoCodusuYComponente(individuo k, individuo l) {
+    bool result = false;
+    if (k[INDCODUSU] == l[INDCODUSU] && k[COMPONENTE] == l[COMPONENTE]) {
+        result = true;
+    }
+    return result;
+}
+
+bool hayRepetidosI(eph_i ti) {
+    bool result = false;
+    for(int n1=0;n1 < ti.size();n1++) {
+        for(int n2=0;n2 < ti.size();n2++) {
+            if (n1 != n2 && mismoCodusuYComponente(ti[n1], ti[n2])) {
+                result = true;
+            }
+        }
+    }
+    return result;
+}
+
+bool hayRepetidosH(eph_h th) {
+    bool result = false;
+    for (int n1=0;n1 < th.size();n1++) {
+        for(int n2=0;n2 < th.size();n2++) {
+            if (n1 != n2 && th[n1][HOGCODUSU] == th[n2][HOGCODUSU]) {
+                result = true;
+            }
+        }
+    }
+    return result;
+}
+
+bool mismoAnioYTrimestre(eph_i ti, eph_h th) {
+    bool result = false;
+    for(int i=0;i < ti.size();i++) {
+        int anioI = ti[0][2];
+        int trimestreI = ti[0][3];
+        if (ti[i][INDANIO] == anioI && ti[i][INDTRIMESTRE] == trimestreI) {
+            for(int j=0;j < th.size();j++) {
+                if (th[j][HOGANIO] == anioI && th[j][HOGTRIMESTRE] == trimestreI) {
+                    result = true;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+int cantHabitantes(hogar h, eph_i ti) {
+    int suma = 0;
+    for(int i=0;i < ti.size();i++) {
+        if (h[HOGCODUSU] == ti[i][INDCODUSU]) {
+            suma = suma + 1;
+        }
+    }
+    return suma;
+}
+
+bool menosDe21MiembrosPorHogar(eph_h th, eph_i ti) {
+    bool result = false;
+    for(int i=0;i < th.size();i++) {
+        if (cantHabitantes(th[i], ti) < 21) {
+            result = true;
+        } else {
+            result = false;
+        }
+    }
+    return result;
+}
+
+bool cantidadValidaDeDormitorios(eph_h th) {
+    bool result = false;
+    for(int i=0;i < th.size();i++) {
+        hogar h = th[i];
+        if (h[7] >= h[8]) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
+bool lugarTrabajo(individuo i) {
+    if (i[PP04G] > 0 && i[PP04G] >= 10) {
+        return true;
+    }
+}
+
+bool individuoValido(individuo i) {
+    if ((i[INDCODUSU] > 0) && (i[COMPONENTE] > 0) && (i[INDTRIMESTRE] > 0 && i[INDTRIMESTRE] <= 4) &&
+        (i[CH4] == 1 || i[CH4] == 2)
+        && (i[CH6] >= 0) && (i[NIVEL_ED] == 0 || i[NIVEL_ED] == 1) && (i[ESTADO] >= -1 && i[ESTADO] <= 1) &&
+        (i[CAT_OCUP] >= 0 && i[CAT_OCUP] <= 4) && (i[p47T] == -1 || i[p47T] >= 0) && lugarTrabajo(i)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool valoresEnRangoI(eph_i ti) {
+    bool result = false;
+    for(int i=0;i < ti.size();i++) {
+        if (individuoValido(ti[i])) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
+bool hogarValido(hogar h) {
+    if ((h[HOGCODUSU] > 0) && (h[HOGTRIMESTRE] > 0 && h[HOGTRIMESTRE] <= 4) &&
+        (h[II7] == 1 || h[II7] == 2 || h[II7] == 3) &&
+        (h[REGION] >= 1 && h[REGION] <= 6) && (h[MAS_500] == 0 || h[MAS_500] == 1) && (h[IV1] > 0 && h[IV1] <= 5) &&
+        (h[IV2] > 0)
+        && (h[II2] >= 1) && (h[II3] == 1 || h[II3] == 2)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool valoresEnRangoH(eph_h th) {
+    bool result = false;
+    for(int i=0;i < th.size();i++) {
+        if (hogarValido(th[i])) {
+            result = true;
+        } else {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
+bool esValida(eph_h th, eph_i ti) {
+    if (!vacia(th) && !vacia(ti) && esMatriz(th) && esMatriz(ti) && cantidadCorrectaDeColumnasH(th) &&
+        cantidadCorrectaDeColumnasI(ti) && noHayIndividuosSinHogares(ti, th) && noHayHogaresSinIndividuos(ti, th)
+        && !hayRepetidosI(ti) && !hayRepetidosH(th) && mismoAnioYTrimestre(ti, th) && menosDe21MiembrosPorHogar(th, ti)
+        && cantidadValidaDeDormitorios(th) && valoresEnRangoI(ti) && valoresEnRangoH(th)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// EJERCICIO 3
+int cantHogValidos(eph_h th, int region) {
+    int suma = 0;
+    for(int i=0;i < th.size();i++) {
+        if (th[i][IV1] == 1 && th[i][REGION] == region && th[i][MAS_500] == 0) {
+            suma = suma + 1;
+        }
+    }
+    return suma;
+}
+
+float cantHogConHacimientoCritico(eph_h th, eph_i ti, int region) {
+    float suma = 0.0;
+    for(int i=0;i < th.size();i++) {
+        if (th[i][IV1] == 1 && th[i][REGION] == region && th[i][MAS_500] == 0 &&
+            cantHabitantes(th[i], ti) > (3 * th[i][II2])) {
+            suma = suma + 1;
+        }
+    }
+    return suma;
+}
+
+float proporcionDeCasasConHC(eph_h th, eph_i ti, int region) {
+    float p = 0.0;
+    if (cantHogValidos(th, region) > 0) {
+        p = cantHogConHacimientoCritico(th, ti, region) / (cantHogValidos(th, region));
+    }
+    return p;
+}
+
+//EJERCICIO 4
+vector<vector<int> > filtrarHogares(vector<vector<int> > v) {
+    vector<vector<int> > res;
+    for(int i=0;i < v.size();i++) {
+        if ((v[i][IV1] == 1 || v[i][IV1] == 2) && v[i][II3] == 1 && v[i][MAS_500] == 1) {
+            res.push_back(v[i]);
+        }
+    }
+    return res;
+}
+
+vector<vector<int> > filtrarindividuos(vector<vector<int> > v) {
+    vector<vector<int> > res;
+    for(int i=0;i < v.size();i++) {
+        if (v[i][ESTADO] == 1 && v[i][PP04G] == 6) {
+            res.push_back(v[i]);
+        }
+    }
+    return res;
+}
+
+int cantIndividuosTrabajan(vector<vector<int> > l, vector<vector<int> > m) {
+    vector<vector<int> > k = filtrarHogares(l);
+    int suma = 0;
+    for(int i=0;i < m.size();i++) {
+        for(int j=0;j < k.size();j++) {
+            if (m[i][ESTADO] == 1 && (k[j][HOGCODUSU] == m[i][INDCODUSU])) {
+                suma = suma + 1;
+            }
+        }
+    }
+    return suma;
+}
+
+float cantidadIndividuosQueTrabajanEnSuVivienda(vector<vector<int> > m, vector<vector<int> > n) {
+    vector<vector<int> > k = filtrarHogares(m);
+    vector<vector<int> > l = filtrarindividuos(n);
+    float suma = 0.0;
+    for(int i=0;i<k.size();i++) {
+        for(int j=0;j < l.size();j++) {
+            if (k[i][HOGCODUSU] == l[j][INDCODUSU]) {
+                suma = suma + 1;
+            }
+        }
+    }
+    return suma;
+}
+
+float proporcionTeleworking(vector<vector<int> > k1, vector<vector<int> > k2) {
+    float p = 0.0;
+    if (cantIndividuosTrabajan(k1, k2) > 0) {
+        p = cantidadIndividuosQueTrabajanEnSuVivienda(k1, k2) / cantIndividuosTrabajan(k1, k2);
+    }
+    return p;
+}
+
+//EJERCICIO 5
+void swap(vector<vector<int> > &v, int i, int j) {
+    vector<int> temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+
+int indiceMinRegion(eph_h th, int l, int r) {
+    int res = r;
+    for(int i=l;i <=r;i++) {
+        if (th[res][REGION] > th[i][REGION]) {
+            res = i;
+        }
+        if (th[res][REGION] == th[i][REGION] && th[res][HOGCODUSU] > th[i][HOGCODUSU]) {
+            res = i;
+        }
+    }
+    return res;
+}
+
+void ordenadaPorRegionYCodusu(eph_h &th) {
+    int n = th.size();
+    for (int i = 0; i < n; i++) {
+        int minRegion = indiceMinRegion(th, i, n - 1);
+        swap(th, minRegion, i);
+
+    }
+}
+int indiceMinHogYComp(eph_i ti,eph_h th, int l, int r) {
+    ordenadaPorRegionYCodusu(th);
+    int res = r;
+    for(int i=l;i<=r;i++){
+        if (ti[res][INDCODUSU] != ti[i][INDCODUSU]) {
+            for(int j=0;j<th.size();j++){
+                for(int k=1;k<th.size();k++) {
+                    if (th[j][HOGCODUSU] == ti[i][INDCODUSU] && th[k][HOGCODUSU] == ti[res][INDCODUSU]) {
+                        res = i;
+                    }
+                }
+            }
+
+        }
+        if (ti[res][INDCODUSU]==ti[i][INDCODUSU] && ti[res][COMPONENTE]>ti[i][COMPONENTE]) {
+            res = i;
+        }
+    }
+    return res;
+}
+
+void ordenadaPorCodusuDeHogarYComponente(eph_i &ti, eph_h th) {
+    int n = ti.size();
+    for (int i = 0; i < n; i++) {
+        int minHog = indiceMinHogYComp(ti, th, i, n - 1);
+        swap(ti, minHog, i);
+    }
+}
