@@ -13,7 +13,8 @@ bool vacia(vector<vector<int> > t) {
     if (t.size() == 0) {
         return true;
     } else {
-        return false;
+        return false;yasgdashd
+        sajdg
     }
 }
 
